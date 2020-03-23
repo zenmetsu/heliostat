@@ -9,6 +9,10 @@ set(HELIOSTAT_VERSION
 	${HELIOSTAT_MAJOR_VERSION}.${HELIOSTAT_MINOR_VERSION}.${HELIOSTAT_PATCH_VERSION}
 )
 
+if(CMAKE_VERSION VERSION_LESS "3.7.0")
+    set(CMAKE_INCLUDE_CURRENT_DIR ON)
+endif()
+
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
     execute_process(
         COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
@@ -21,4 +25,7 @@ endif ()
 
 
 # Add sub-directories
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lin_guider)
+
 add_subdirectory(main)
+add_subdirectory(lin_guider)

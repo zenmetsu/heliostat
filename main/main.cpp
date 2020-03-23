@@ -10,6 +10,7 @@
 
 #include "ser.h"
 #include "image_processing.h"
+#include "server.h"
 
 std::string serFile  = "";
 
