@@ -4,9 +4,18 @@ Heliostat is a autoguiding application for solar, lunar, and planetary imaging.
 
 The project's page is located at [Heliostat](https://github.com/zenmetsu/heliostat).
 
+Status:
+* Currently application compiles without warning
+* Application will parse commandline and accept a file operand
+* Application steps through each frame in the .ser where it
+	* Displays the raw data from the camera
+	* Displays the detected contours and center of mass
+	* Waits for user to press a key to step to the next image
+	* Outputs the detected center of mass coordinates to the console
+
 TODO:
 
-* Commandline/argument parsing
+* ~~Commandline/argument parsing~~
 * Filtering
 * INDI integration
 * Field testing
