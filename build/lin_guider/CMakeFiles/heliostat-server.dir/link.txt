@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/heliostat-server.dir/heliostat-server_autogen/mocs_compilation.cpp.o CMakeFiles/heliostat-server.dir/server.cpp.o CMakeFiles/heliostat-server.dir/utils.cpp.o  -o heliostat-server /usr/lib64/libQt5Widgets.so.5.13.2 -lpthread /usr/lib64/libQt5Gui.so.5.13.2 /usr/lib64/libQt5Core.so.5.13.2 
