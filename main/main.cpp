@@ -52,7 +52,6 @@ void process_args(int argc, char** argv) {
 }
 
 
-
 int main(int argc, char* argv[])
 {
   std::ifstream inStream;
