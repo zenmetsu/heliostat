@@ -14,10 +14,10 @@
 #include "opencv2/imgproc.hpp"
 
 
-void ser_get_details(std::ifstream &f, int &width, int &height, int &depth, int &count, size_t &s);
+void ser_get_details(std::ifstream& f, int &width, int &height, int &depth, int &count, size_t &s);
 
 void ser_get_offset(uint64_t f, int w, int h, int d, uint64_t &o);
   
-cv::Mat ser_get_frame(std::ifstream& serFile);
+cv::Mat ser_get_frame(std::ifstream &serFile);
 
 #endif // _SER_H_

@@ -4,7 +4,6 @@
 #include <fstream>
 #include <cstring>
 #include <cstddef>
-#include <vector>
 #include <getopt.h>
 #include <memory>
 #include <stdexcept>
@@ -29,11 +28,12 @@ int main(int argc, char* argv[]) {
   uint64_t frameToGrab   = 0;
   uint64_t prevFrame     = 0;
   uint64_t frameOffset   = 0;
-  float xCm,yCm          = 0;
+  float xd,yd            = 0;
   float theta            = 0;
   float decScale,raScale = 0;
   bool reversedRA        = false;
   bool reversedDec       = false;
+  int64_t decTime,raTime, totalError;
 
 
   process_args(argc, argv);
@@ -43,12 +43,23 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 
-  inStream.open( serFile, std::ios::in|std::ios::binary );
-  while( true ) {
+ 	inStream.open( serFile, std::ios::in|std::ios::binary );
 	calibrate_mount(inStream, theta, decScale, raScale, reversedRA, reversedDec);
 	std::cout << theta << "," << decScale << "," << raScale << "\n";
+	std::cout << "rev.Dec:" << reversedDec << " rev.RA:" << reversedRA << "\n";
 
-	sleep(30);
+        get_desired_location(inStream, theta, xd, yd);
+	std::cout << xd << "," << yd <<  "\n";
+	
+
+  while( true ) {
+	calculate_correction(inStream, xd, yd, theta, decScale, raScale, decTime, raTime);
+	std::cout << "Desired: " << xd << ", " << yd << "\n";
+	std::cout << "Pulses: " << decTime << ", " << raTime << "\n";
+	totalError=sqrt(pow(decTime,2) + pow(raTime,2));
+	if(totalError > 5000000)
+	  guide_mount(decTime, raTime, reversedRA, reversedDec);
+	sleep(5);
       }
 }
 
