@@ -81,7 +81,7 @@ void process_frame(std::vector<uint16_t> &v, int h, int w, float &x, float &y) {
 }
 */
 
-void img_get_mass_center(cv::Mat& src, float &x,float &y){
+void img_get_mass_center(cv::Mat src, float &x,float &y){
 	cv::Mat canny_output;
 	std::vector<std::vector<Point> > contours;
 	std::vector<Vec4i> hierarchy;

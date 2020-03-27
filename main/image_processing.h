@@ -10,8 +10,7 @@
 #include <vector>
 #include <math.h>
 
-void process_frame(std::vector<uint16_t> &v, int h, int w, float &x, float &y);
 
-void img_get_mass_center(std::vector<uint16_t> &v,int h, int w, float &x,float &y);
+void img_get_mass_center(cv::Mat src, float &x,float &y);
 
 #endif // _IMAGE_PROCESSING_H_

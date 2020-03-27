@@ -21,8 +21,8 @@ void calibrate_mount(std::ifstream& f, float &theta, float &decScale, float &raS
 	float x1,y1,x2,y2;
 	float dx,dy;
 
-	cv::Mat iframe = ser_get_frame(f);
-	img_get_mass_center(iframe,x1,y1);
+	cv::Mat frame = ser_get_frame(f);
+	img_get_mass_center(frame,x1,y1);
 	slew_n(10000000);
 	sleep(2);
 	frame = ser_get_frame(f);
