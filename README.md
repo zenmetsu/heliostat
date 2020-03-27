@@ -7,6 +7,9 @@ The project's page is located at [Heliostat](https://github.com/zenmetsu/heliost
 Status:
 * Currently application compiles without warning
 * Application will parse commandline and accept a file operand
+* Application will calibrate the mount and determine
+	* Field rotation of camera
+	* RA/DEC correction directions and magnitudes
 * Application steps through each frame in the .ser where it
 	* Displays the raw data from the camera
 	* Displays the detected contours and center of mass
@@ -17,7 +20,10 @@ TODO:
 
 * ~~Commandline/argument parsing~~
 * Filtering
-* INDI integration
+* ~~INDI integration~~
+	* Currently application makes system calls to indi_getprop and indi_setprop
+	* Will need to code these in natively
+	* Need to parse getprop to allow user to interactively select mount by name
 * Field testing
 
 # License
