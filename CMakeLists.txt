@@ -13,11 +13,7 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
 
-find_package(Qt5 5.7.0 REQUIRED COMPONENTS
-    Core
-)
 
-set(CMAKE_AUTOMOC ON)
 
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
     execute_process(
@@ -31,11 +27,5 @@ endif ()
 
 
 # Add sub-directories
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lin_guider)
-
 add_subdirectory(main)
-add_subdirectory(lin_guider)
 
-target_link_libraries(${PROJECT_NAME}
-    Qt5::Core
-)

@@ -6,13 +6,51 @@
 #include <cstddef>
 #include <vector>
 #include <getopt.h>
+#include <memory>
+#include <stdexcept>
 
-
-#include "ser.h"
 #include "image_processing.h"
-#include "server.h"
+#include "ser.h"
+#include "telescope.h"
 
 std::string serFile  = "";
+
+static void show_usage();
+void process_args(int argc, char** argv);
+
+int main(int argc, char* argv[]) {
+  std::ifstream inStream;
+  size_t serSize         = 0;
+  int imageWidth         = 0;
+  int imageHeight        = 0;
+  int imageDepth         = 0;
+  int imageCount         = 0;
+  uint64_t frameSize     = 0;
+  uint64_t frameToGrab   = 0;
+  uint64_t prevFrame     = 0;
+  uint64_t frameOffset   = 0;
+  float xCm,yCm          = 0;
+  float theta            = 0;
+  float decScale,raScale = 0;
+  bool reversedRA        = false;
+  bool reversedDec       = false;
+
+
+  process_args(argc, argv);
+	if ("" == serFile) {
+		std::cerr << "heliostat: missing file operand\n";
+		std::cerr << "Try 'heliostat --help' for more information.\n";
+		exit(1);
+	}
+
+  inStream.open( serFile, std::ios::in|std::ios::binary );
+  while( true ) {
+	calibrate_mount(inStream, theta, decScale, raScale, reversedRA, reversedDec);
+	std::cout << theta << "," << decScale << "," << raScale << "\n";
+
+	sleep(30);
+      }
+}
 
 static void show_usage() {
 	std::cout <<
@@ -49,45 +87,4 @@ void process_args(int argc, char** argv) {
 				break;
 			}
 	}
-}
-
-
-int main(int argc, char* argv[])
-{
-  std::ifstream inStream;
-  int imageWidth       = 0;
-  int imageHeight      = 0;
-  int imageDepth       = 0;
-  int imageCount       = 0;
-  uint64_t frameSize   = 0;
-  uint64_t frameToGrab = 0;
-  uint64_t frameOffset = 0;
-
-  process_args(argc, argv);
-	if ("" == serFile) {
-		std::cerr << "heliostat: missing file operand\n";
-		std::cerr << "Try 'heliostat --help' for more information.\n";
-		exit(1);
-	}
-
-  inStream.open( serFile, std::ios::in|std::ios::binary );
-  frameToGrab = 0; // temporary debugging to grab first frame
-  while( true ) {
-        frameToGrab++;
-
-	// retrieve details from .ser header
-        ser_get_details(inStream, imageWidth, imageHeight, imageDepth, imageCount);
-
-	// find offset for current frame
-	ser_get_offset(frameToGrab, imageWidth, imageHeight, imageDepth, frameOffset);
-        std::cout << "Offset: " << frameOffset << " "; 
-
-        // retrieve frame from .ser
-        std::vector<uint16_t> array(imageHeight*imageWidth);
-        frameSize = imageHeight*imageWidth*(imageDepth/8);
-	ser_get_frame(inStream, frameOffset, frameSize, array);
-
-        // process current frame
-	process_frame(array, imageHeight, imageWidth);
-      }
 }
